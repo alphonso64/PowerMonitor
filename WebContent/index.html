@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta HTTP-EQUIV="Pragma" CONTENT="no-cache">
+		<meta HTTP-EQUIV="Cache-Control" CONTENT="no-cache">
+		<meta HTTP-EQUIV="Expires" CONTENT="0">
+		<title>华光新材料</title>
+		<link rel="shortcut icon" href="img/google.ico"/>
+		<link rel="stylesheet" type="text/css" href="css/index.css"/>
+	</head>
+	<body>
+		<header>
+			<p>华光数据记录</p>
+			<ul>
+				<li class="realBox">实时数据</li>
+				<li class="pastBox">历史数据</li>
+				<!--<li class="file">文件管理</li>-->
+			</ul>
+		</header>
+		<div id="main">
+			<!--实时温度-->
+			<div id="realBox">
+				<!--测试-->
+				<p class="other">
+					当前状态: 
+					<span id="type1">正常</span>
+					<span id="type2"></span>
+				</p>
+				<div class="flex">
+					<div>
+						<div id="T"><div id="t"></div></div><!--温度-->
+						<div id="V"><div id="v"></div></div><!--电压-->
+					</div>
+					<div>
+						<div id="I"><div id="i"></div></div><!--电流-->
+						<div id="P"><div id="p"></div></div><!--功率-->
+					</div>
+				</div>
+			</div>
+			<!--历史数据-->
+			<div id="pastBox">
+				<p class="date">
+					请选择起始时间: <input type="text" id="dateStart" readonly="readonly" class="laydate-icon"/>
+					结束时间: <input type="text" id="dateEnd" readonly="readonly" class="laydate-icon"/>
+					<button id="dateBtn" onclick="query()">查询</button>
+				</p>
+				<div class="flex">
+					<div>
+						<div id="OT"><div id="ot"></div></div><!--温度-->
+						<div id="OV"><div id="ov"></div></div><!--电压-->
+					</div>
+					<div>
+						<div id="OI"><div id="oi"></div></div><!--电流-->
+						<div id="OP"><div id="op"></div></div><!--功率-->
+					</div>
+				</div>
+			</div>
+			<!--文件管理-->
+			<!--
+			<div id="file">
+				<div class="fileBox">
+					<p>文件列表：
+						<button id="issued" onclick="issued()">下发</button>&nbsp;
+						<button id="refresh" onclick="fileRefresh()">刷新</button>
+					</p>
+					<div>
+						<table id="fileTable" cellspacing="0">
+							<thead>
+								<tr><th>选择</th><th>文件名</th></tr>
+							</thead>
+							<tbody>
+							</tbody>
+							<tfoot>
+								<tr>
+									<td colspan="2">
+										<button onclick="pageAdd()">上页</button>
+										<span>0</span>
+										<button onclick="pageScc()">下页</button>
+										共<b>0</b>页
+									</td>
+								</tr>
+							</tfoot>
+						</table>
+					</div>
+				</div>
+			</div>
+			-->
+		</div>
+		<!--弹出框-->
+		<div id="popup">
+			<div>
+				<p>提示:</p>
+				<div>
+				</div>
+				<p>
+					<button>确定</button>
+				</p>
+			</div>
+		</div>
+		<!--延迟动画-->
+		<div id="loading">
+			<div>
+				<div class="n1"></div>
+				<div class="n2"></div>
+				<div class="n3"></div>
+				<div class="n4"></div>
+				<div class="n5"></div>
+				<div class="n6"></div>
+				<div class="n7"></div>
+			</div>
+		</div>
+		<script src="js/jquery-1.11.3.js"></script>
+		<script src="js/echarts.min.js"></script>
+		<script src="js/laydate/laydate.js"></script>
+		<script src="js/reconnecting-websocket.min.js"></script>
+		<script src="js/index.js"></script>
+		<div style="display: none;">温度，电压，电流，功率，报警状态，倒包、急停</div>
+	</body>
+</html>

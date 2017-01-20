@@ -1,0 +1,23 @@
+<?xml version="1.0"?>  
+<!DOCTYPE hibernate-mapping PUBLIC  
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"  
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="com.thingword.powermonitor.db">
+
+	<class name="Status" table="status">
+		<id name="ID" column="Id" type="int">
+			<generator class="native" />
+		</id>
+		<property name="time" type="timestamp" />
+		<property name="temp_a" type="string" />
+		<property name="temp_b" type="string" />
+		<property name="ua" type="string" />
+		<property name="ia" type="string" />
+		<property name="power" type="string" />
+		<property name="errorcode" type="string" />
+		<property name="powerlevel" type="string" />
+	</class>
+
+
+</hibernate-mapping>
