@@ -39,11 +39,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.google.gson.Gson;
 import com.thingword.powermonitor.db.DispatchFile;
+import com.thingword.powermonitor.db.RecordStatusFile;
 import com.thingword.powermonitor.db.ReqHistory;
 import com.thingword.powermonitor.db.ReturnData;
+import com.thingword.powermonitor.db.ReturnMessage;
 import com.thingword.powermonitor.db.Status;
 import com.thingword.powermonitor.service.StatusService;
 import com.thingword.powermonitor.service.impl.StatusServiceImpl;
+import com.thingword.powermonitor.util.FileUtil;
 
 import javassist.ByteArrayClassPath;
 
@@ -61,7 +64,7 @@ public class ApiResource {
 		statusServiceImpl.insert(status);
 		Gson gson = new Gson();
 		String msg = gson.toJson(status);
-		System.out.println(msg);
+		//System.out.println(msg);
 		for (WebSocketWorker item : WebSocketWorker.webSocketSet) {
 			try {
 				item.sendMessage(msg);
@@ -81,10 +84,26 @@ public class ApiResource {
 	}
 	
 	@POST
+	@Path("/getFileContent")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public String getFileContent(DispatchFile file) {
+		//System.out.println("getFileContent");
+		return statusServiceImpl.getFileContent(file.getPath());
+	}
+	
+	@POST
+	@Path("/delFile")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public ReturnMessage delFile(DispatchFile file) {
+		return statusServiceImpl.delFile(file.getPath());
+	}
+	
+	
+	@POST
 	@Path("/getFileList")	
 	@Produces(MediaType.APPLICATION_JSON)
 	public ReturnData<DispatchFile> getHistory() {
-		System.out.println("getFileList");
+		//System.out.println("getFileList");
 		return statusServiceImpl.getFileList();
 	}
 	
@@ -94,9 +113,29 @@ public class ApiResource {
 	public void uploadFile(@FormDataParam("file") InputStream uploadedInputStream,
 			@FormDataParam("file") FormDataContentDisposition fileDetail) {
 		statusServiceImpl.uploadFile(fileDetail.getFileName(), uploadedInputStream);
-		System.out.println(fileDetail.getFileName());
-
+		//System.out.println(fileDetail.getFileName());
+	}
+		
+	@POST
+	@Path("/statusFile")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public void statusFile(RecordStatusFile rf){
+		statusServiceImpl.saveRecordFile(rf);
 	}
 	
+	@GET
+	@Path("/reqFile")
+	public byte[] reqFile(@QueryParam("path") String path, @Context HttpServletRequest request,
+			@Context HttpServletResponse response) {
+		//System.out.println(path);
+		byte[] bytes = FileUtil.getFile(path);
+		response.addHeader("Content-Length", String.valueOf(bytes.length));
+		return bytes;
+	}
+	
+
+
+		
 	
 }

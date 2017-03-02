@@ -5,7 +5,7 @@ import org.glassfish.jersey.server.ResourceConfig;
 
 public class RestApplication extends ResourceConfig {
 	public RestApplication() {
-		System.out.println("test");
+		//System.out.println("test");
 		packages("com.thingword.powermonitor");
 		register(MultiPartFeature.class);
 		register(JacksonJsonProvider.class);	

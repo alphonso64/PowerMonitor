@@ -2,10 +2,13 @@ package com.thingword.powermonitor.util;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.Charset;
@@ -47,6 +50,38 @@ public class FileUtil {
 			e.printStackTrace();
 		}
 		return bytes;
+	}
+	
+	
+	public static boolean saveRecordStatusFile(String content,String path) {
+		deleteAllFilesOfDir(new File(path));
+	    try  
+	    {      
+	      File fileText = new File(path);  
+	      FileWriter fileWriter = new FileWriter(fileText);  
+	      fileWriter.write(content);  
+	      fileWriter.close();  
+	    }  
+	    catch (IOException e)  
+	    {  
+	      e.printStackTrace();  
+	    }  
+		return true;
+	}
+	
+	public static String getFileContent(String path){
+        StringBuilder result = new StringBuilder();
+        try{
+            BufferedReader br = new BufferedReader(new FileReader(path));//构造一个BufferedReader类来读取文件
+            String s = null;
+            while((s = br.readLine())!=null){//使用readLine方法，一次读一行
+                result.append(System.lineSeparator()+s);
+            }
+            br.close();    
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return result.toString();
 	}
 
 	public static void deleteAllFilesOfDir(File path) {

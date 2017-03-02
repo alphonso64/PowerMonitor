@@ -29,7 +29,7 @@ public class WebSocketWorker {
      */
     @OnOpen
     public void onOpen(Session session){
-    	System.out.println("onOpen "+onlineCount);
+    	//System.out.println("onOpen "+onlineCount);
         this.session = session;
         webSocketSet.add(this);     //加入set中
         addOnlineCount();           //在线数加1

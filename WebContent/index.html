@@ -8,6 +8,9 @@
 		<title>华光新材料</title>
 		<link rel="shortcut icon" href="img/google.ico"/>
 		<link rel="stylesheet" type="text/css" href="css/index.css"/>
+		<style type="text/css">
+			
+		</style>
 	</head>
 	<body>
 		<header>
@@ -15,7 +18,7 @@
 			<ul>
 				<li class="realBox">实时数据</li>
 				<li class="pastBox">历史数据</li>
-				<!--<li class="file">文件管理</li>-->
+				<li class="file">文件管理</li>
 			</ul>
 		</header>
 		<div id="main">
@@ -28,14 +31,10 @@
 					<span id="type2"></span>
 				</p>
 				<div class="flex">
-					<div>
-						<div id="T"><div id="t"></div></div><!--温度-->
-						<div id="V"><div id="v"></div></div><!--电压-->
-					</div>
-					<div>
-						<div id="I"><div id="i"></div></div><!--电流-->
-						<div id="P"><div id="p"></div></div><!--功率-->
-					</div>
+					<div><div id="T"><div id="t"></div></div></div><!--温度-->
+					<div><div id="V"><div id="v"></div></div></div><!--电压-->
+					<div><div id="I"><div id="i"></div></div></div><!--电流-->
+					<div><div id="P"><div id="p"></div></div></div><!--功率-->
 				</div>
 			</div>
 			<!--历史数据-->
@@ -46,22 +45,18 @@
 					<button id="dateBtn" onclick="query()">查询</button>
 				</p>
 				<div class="flex">
-					<div>
-						<div id="OT"><div id="ot"></div></div><!--温度-->
-						<div id="OV"><div id="ov"></div></div><!--电压-->
-					</div>
-					<div>
-						<div id="OI"><div id="oi"></div></div><!--电流-->
-						<div id="OP"><div id="op"></div></div><!--功率-->
-					</div>
+					<div><div id="OT"><div id="ot"></div></div></div><!--温度-->
+					<div><div id="OV"><div id="ov"></div></div></div><!--电压-->
+					<div><div id="OI"><div id="oi"></div></div></div><!--电流-->
+					<div><div id="OP"><div id="op"></div></div></div><!--功率-->
 				</div>
 			</div>
 			<!--文件管理-->
-			<!--
 			<div id="file">
 				<div class="fileBox">
 					<p>文件列表：
-						<button id="issued" onclick="issued()">下发</button>&nbsp;
+						<button id="buildFileBtn">新建</button>&nbsp;
+						<button id="buildDelete">删除</button>&nbsp;
 						<button id="refresh" onclick="fileRefresh()">刷新</button>
 					</p>
 					<div>
@@ -70,6 +65,7 @@
 								<tr><th>选择</th><th>文件名</th></tr>
 							</thead>
 							<tbody>
+								<!--填充列表-->
 							</tbody>
 							<tfoot>
 								<tr>
@@ -82,10 +78,72 @@
 								</tr>
 							</tfoot>
 						</table>
+						<div id="fileEchart">
+							<b>&times;</b> <!--关闭图标-->
+							<div class="echartMark">加料<u></u>倒包<u></u>捞渣<u></u>搅拌<u></u></div>
+							<div id="fileEchartBox">
+								<!--折线图-->
+							</div>
+							<div id="fileBtn">
+								<a id=".fileAdd" class="select">增加数据</a><a id=".fileChange">修改数据</a><a id=".fileDelete">删除数据</a>
+								<ul>
+									<li class="fileAdd">
+										起点: <input type="text" id="fileAddStart" readonly="readonly"/>&nbsp;&nbsp;
+										时长: <input type="number" min="0" id="fileAddTime"/> 秒&nbsp;&nbsp;
+										功率: <input type="number" min="0" id="fileAddNumber"/> W&nbsp;&nbsp;
+										<button id="fileAddSure">增加</button>
+									</li>
+									<li class="fileChange">
+										起点: <input type="text" id="fileChangeStart" readonly="readonly"/>&nbsp;&nbsp;
+										终点: <input type="text" id="fileChangeEnd" readonly="readonly"/>&nbsp;&nbsp;
+										起点值: <input type="text" id="fileChangeStartPower"/> W&nbsp;&nbsp;
+										终点值: <input type="text" id="fileChangeEndPower"/> W&nbsp;&nbsp;
+										<!--功率: <input type="number" min="0" id="fileChangeNumber"/> W&nbsp;&nbsp;-->
+										<button id="fileChangeSure">修改</button>
+									</li>
+									<li class="fileDelete">
+										起点: <input type="text" id="fileDeleteStart" readonly="readonly"/>&nbsp;&nbsp;
+										终点: <input type="text" id="fileDeleteEnd" readonly="readonly"/>&nbsp;&nbsp;
+										<button id="fileDeleteSure">删除</button>
+									</li>
+									<i id="fileSubmit">确认提交</i>
+								</ul>
+							</div>
+						</div>
+						<div id="buildFile">
+							<div id="buildBox">
+								<b>&times;</b> <!--关闭图标-->
+								<h2>新建文件:</h2>
+								<ul id="buildUl">
+									<!--添加内容-->
+								</ul>
+								<p>
+									<button id="buildAdd">新增阶段</button>
+									<button id="buildSubmit">新建</button>
+								</p>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
-			-->
+		</div>
+		<!--材料选择框-->
+		<div id="material">
+			<div>
+				<h2>请选择材料:</h2>
+				<label><input type="checkbox" name="material" value="Ag"/>Ag</label>
+				<label><input type="checkbox" name="material" value="Cu"/>Cu</label>
+				<label><input type="checkbox" name="material" value="Cu-P"/>Cu-P</label>
+				<label><input type="checkbox" name="material" value="Sn"/>Sn</label>
+				<label><input type="checkbox" name="material" value="In"/>In</label>
+				<label><input type="checkbox" name="material" value="Sb"/>Sb</label>
+				<label><input type="checkbox" name="material" value="Ni"/>Ni</label>
+				<label><input type="checkbox" name="material" value="Cu-Zr"/>Cu-Zr</label>
+				<label><input type="checkbox" name="material" value="Mn"/>Mn</label>
+				<label><input type="checkbox" name="material" value="Zn"/>Zn</label>
+				<label><input type="checkbox" name="material" value="Cu-Si"/>Cu-Si</label> <br />
+				<p><button>确定</button></p>
+			</div>
 		</div>
 		<!--弹出框-->
 		<div id="popup">
@@ -110,11 +168,24 @@
 				<div class="n7"></div>
 			</div>
 		</div>
+		<!--修改数据提交框-->
+		<div id="fileChangeSubmit">
+			<div>
+				<p>提交文件</p>
+				<div>
+					文件名: <input type="text" id="fileName"/>
+				</div>
+				<p>
+					<button id="changeSure">确认</button>
+					<button id="changeCancel">取消</button>
+				</p>
+			</div>
+		</div>
 		<script src="js/jquery-1.11.3.js"></script>
 		<script src="js/echarts.min.js"></script>
 		<script src="js/laydate/laydate.js"></script>
 		<script src="js/reconnecting-websocket.min.js"></script>
 		<script src="js/index.js"></script>
-		<div style="display: none;">温度，电压，电流，功率，报警状态，倒包、急停</div>
 	</body>
 </html>
+

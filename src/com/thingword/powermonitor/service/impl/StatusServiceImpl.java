@@ -1,16 +1,20 @@
 package com.thingword.powermonitor.service.impl;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.google.gson.Gson;
 import com.thingword.powermonitor.dao.impl.StatusDaoImpl;
 import com.thingword.powermonitor.db.DispatchFile;
 import com.thingword.powermonitor.db.MESSAGE;
+import com.thingword.powermonitor.db.RecordStatusFile;
 import com.thingword.powermonitor.db.ReqHistory;
 import com.thingword.powermonitor.db.ReturnData;
+import com.thingword.powermonitor.db.ReturnMessage;
 import com.thingword.powermonitor.db.Status;
 import com.thingword.powermonitor.service.StatusService;
 import com.thingword.powermonitor.util.FileUtil;
@@ -57,6 +61,28 @@ public class StatusServiceImpl implements StatusService{
 		} catch (IOException e) {
 			
 		}		
+	}
+
+	@Override
+	public String getFileContent(String path) {
+		// TODO Auto-generated method stub
+		return FileUtil.getFileContent(path);
+	}
+
+	@Override
+	public void saveRecordFile(RecordStatusFile rf) {
+		Gson gson = new Gson(); 
+		String string = gson.toJson(rf.getData());
+		FileUtil.saveRecordStatusFile(string, filePath+rf.getName());
+		
+	}
+
+	@Override
+	public ReturnMessage delFile(String path) {
+		ReturnMessage rs = new ReturnMessage();
+		rs.setReturn_code(MESSAGE.RETURN_SUCCESS);
+		FileUtil.deleteAllFilesOfDir(new File(path));
+		return rs;
 	}
 
 }
