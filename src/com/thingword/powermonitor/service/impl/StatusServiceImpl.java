@@ -76,13 +76,24 @@ public class StatusServiceImpl implements StatusService{
 		FileUtil.saveRecordStatusFile(string, filePath+rf.getName());
 		
 	}
+	
+	@Override
+	public ReturnMessage copyFile(String FilePath,String FileName) {
+		return 	FileUtil.copyFile(FilePath, filePath+FileName);	
+	}
 
 	@Override
 	public ReturnMessage delFile(String path) {
 		ReturnMessage rs = new ReturnMessage();
 		rs.setReturn_code(MESSAGE.RETURN_SUCCESS);
+		System.out.println("del "+path);
 		FileUtil.deleteAllFilesOfDir(new File(path));
 		return rs;
+	}
+
+	@Override
+	public ReturnMessage reNameFile(String FilePath, String FileName) {
+		return 	FileUtil.reNameFile(FilePath, filePath+FileName);	
 	}
 
 }

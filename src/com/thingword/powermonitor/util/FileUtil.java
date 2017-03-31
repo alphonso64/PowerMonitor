@@ -12,6 +12,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.Charset;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -30,6 +31,8 @@ import com.jacob.com.ComThread;
 import com.jacob.com.Dispatch;
 import com.jacob.com.Variant;
 import com.thingword.powermonitor.db.DispatchFile;
+import com.thingword.powermonitor.db.MESSAGE;
+import com.thingword.powermonitor.db.ReturnMessage;
 
 public class FileUtil {
 	
@@ -112,7 +115,43 @@ public class FileUtil {
 		}
 		return ls;
 	}
-
+	
+	public static ReturnMessage copyFile(String FilePath,String FileName) {
+		ReturnMessage message = new ReturnMessage();
+		message.setReturn_code(MESSAGE.RETURN_FAIL);
+		File srcfile = new File(FilePath);
+		File dstfile = new File(FileName);
+		if(dstfile.exists()){
+			message.setReturn_msg(MESSAGE.COPY_FILE_FAIL);
+			return message;
+		}
+		try {
+			Files.copy(srcfile.toPath(),dstfile.toPath());
+			message.setReturn_code(MESSAGE.RETURN_SUCCESS);
+			message.setReturn_msg(MESSAGE.COPY_FILE_SUCCESS);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		message.setReturn_code(MESSAGE.RETURN_SUCCESS);
+		message.setReturn_msg(MESSAGE.COPY_FILE_SUCCESS);
+		return message;
+	}
+	
+	public static ReturnMessage reNameFile(String FilePath,String FileName) {
+		ReturnMessage message = new ReturnMessage();
+		message.setReturn_code(MESSAGE.RETURN_FAIL);
+		File oldFile = new File(FilePath);
+		File file = new File(FileName);
+		if(file.exists()){
+			message.setReturn_msg(MESSAGE.RENAME_FILE_FAIL);
+			return message;
+		}
+		oldFile.renameTo(file);
+		message.setReturn_code(MESSAGE.RETURN_SUCCESS);
+		message.setReturn_msg(MESSAGE.RENAME_FILE_SUCCESS);
+		return message;
+	}
+	
 	public static void saveToFile(String fileName, InputStream in) throws IOException {   
 		File file = new File(fileName);
 		if(file.exists())

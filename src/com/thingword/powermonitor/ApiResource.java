@@ -39,6 +39,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.google.gson.Gson;
 import com.thingword.powermonitor.db.DispatchFile;
+import com.thingword.powermonitor.db.ReNameFile;
 import com.thingword.powermonitor.db.RecordStatusFile;
 import com.thingword.powermonitor.db.ReqHistory;
 import com.thingword.powermonitor.db.ReturnData;
@@ -98,6 +99,22 @@ public class ApiResource {
 		return statusServiceImpl.delFile(file.getPath());
 	}
 	
+	@POST
+	@Path("/copyFile")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public ReturnMessage copyFile(ReNameFile file) {
+		System.out.println(file.getPath()+"   "+file.getReName());
+		return statusServiceImpl.copyFile(file.getPath(), file.getReName());
+	}
+	
+	@POST
+	@Path("/reNameFile")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public ReturnMessage reNameFile(ReNameFile file) {
+		System.out.println(file.getPath()+"   "+file.getReName());
+		return statusServiceImpl.reNameFile(file.getPath(), file.getReName());
+	}
+	
 	
 	@POST
 	@Path("/getFileList")	
@@ -128,7 +145,6 @@ public class ApiResource {
 	@Path("/reqFile")
 	public byte[] reqFile(@QueryParam("path") String path, @Context HttpServletRequest request,
 			@Context HttpServletResponse response) {
-		//System.out.println(path);
 		byte[] bytes = FileUtil.getFile(path);
 		response.addHeader("Content-Length", String.valueOf(bytes.length));
 		return bytes;

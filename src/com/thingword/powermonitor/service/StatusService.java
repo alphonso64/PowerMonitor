@@ -16,5 +16,7 @@ public interface StatusService {
 	public String getFileContent(String path);;
 	public void uploadFile(String name, InputStream inputStream);
 	public void saveRecordFile(RecordStatusFile rf);
-	public ReturnMessage delFile(String path);
+	public ReturnMessage delFile(String path);	
+	public ReturnMessage copyFile(String FilePath,String FileName);
+	public ReturnMessage reNameFile(String FilePath,String FileName);
 }
